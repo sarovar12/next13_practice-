@@ -13,9 +13,7 @@ export default function ResturantDetails() {
   return (
     
         <>
-          <Header/>
-      {/* Description Portion */}
-        <div className="flex m-auto w-2/3 justify-between items-start  -mt-11">
+          
           <div className="bg-white  w-[70%] rounded p-3 shadow">
             <ResturantNavbar/>
             <Title/>
@@ -25,7 +23,7 @@ export default function ResturantDetails() {
             <ReviewSection/>
           </div>
           <ReservationCard/>
-        </div>
+        
       {/* Description Portion */}
       </>
   )
