@@ -1,6 +1,5 @@
 
 import React from 'react'
-import Header from './components/Header'
 import ResturantNavbar from './components/ResturantNavbar'
 import Title from './components/Title'
 import Ratings from './components/Ratings'
@@ -10,21 +9,54 @@ import ReviewSection from './components/ReviewSection'
 import ReservationCard from './components/ReservationCard'
 
 import { Metadata } from "next";
+import { PrismaClient } from '@prisma/client'
+
 export const metadata: Metadata = {
     title: 'Corrine Bar (Nakkhu) | OpenTable',
   }
+  interface Restaurant{
+    id: number;
+    name: string;
+    images: string[];
+    description: string;
+    slug: string;
+}
 
-export default function ResturantDetails() {
+const prisma = new PrismaClient();
+const fetchRestaurantBySlug = async (slug:string) : Promise<Restaurant> =>{
+  const restaurant = await prisma.restaurant.findUnique({
+    where:{
+      slug,
+    },
+    select:{
+      id:true,
+      name:true,
+      images:true,
+      description:true,
+      slug:true,
+    }
+  })
+
+  if(!restaurant){
+    throw new Error()
+  }
+  return restaurant; 
+}
+
+
+export default async function ResturantDetails({params}:{params:{slug: string}}) {
+
+  const restaurant = await fetchRestaurantBySlug(params.slug)
   return (
     
         <>
           
           <div className="bg-white  w-[70%] rounded p-3 shadow">
-            <ResturantNavbar/>
-            <Title/>
+            <ResturantNavbar slug={restaurant.slug}/>
+            <Title name={restaurant.name}  />
             <Ratings/>
-            <Description/>
-            <Images/>
+            <Description description= {restaurant.description}/>
+            <Images images={restaurant.images}/>
             <ReviewSection/>
           </div>
           <ReservationCard/>

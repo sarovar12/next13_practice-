@@ -5,8 +5,6 @@ export const metadata: Metadata = {
   title: 'OpenTable Clone'}
 import { PrismaClient, Cuisine, Location, PRICE } from "@prisma/client";
 
-
-
 const prisma = new PrismaClient();
 
 export interface ResturantCardType{
@@ -19,7 +17,7 @@ export interface ResturantCardType{
   slug:string;
 }
 
-const fetchRestaurants = async() :Promise<ResturantCardType[]>=>{
+const fetchRestaurants = async():Promise<ResturantCardType[]>=>{
   const restaurants = await prisma.restaurant.findMany({
     select:{
       id:true,

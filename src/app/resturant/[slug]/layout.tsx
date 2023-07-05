@@ -2,13 +2,14 @@ import Header from "./components/Header";
 
 
 export default function ResturantLayout({
-    children,
+    children,params
   }: {
-    children: React.ReactNode
+    children: React.ReactNode;
+    params:{slug:string}
   }) {
   return (
     <main>
-    <Header/>
+    <Header name={params.slug} />
     <div className="flex m-auto w-2/3 justify-between items-start  -mt-11">
         {children}
     </div>    
