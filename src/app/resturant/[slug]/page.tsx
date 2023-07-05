@@ -9,6 +9,11 @@ import Images from './components/Images'
 import ReviewSection from './components/ReviewSection'
 import ReservationCard from './components/ReservationCard'
 
+import { Metadata } from "next";
+export const metadata: Metadata = {
+    title: 'Corrine Bar (Nakkhu) | OpenTable',
+  }
+
 export default function ResturantDetails() {
   return (
     

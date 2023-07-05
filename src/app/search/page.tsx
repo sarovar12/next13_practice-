@@ -1,11 +1,16 @@
 
 import React from 'react'
-
+import { Metadata } from "next";
 import Header from './components/Header'
 import SearchSideBar from './components/SearchSideBar'
 import ResturantCard from './components/ResturantCard'
 
+export const metadata: Metadata = {
+  title: 'Search | OpenTable',
+}
+
 export default function Search() {
+
   return (
     <>
           <Header/>

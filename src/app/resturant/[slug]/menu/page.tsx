@@ -1,9 +1,11 @@
 
 import React from 'react'
-import Header from '../components/Header'
 import ResturantNavbar from '../components/ResturantNavbar'
-
 import Menu from './components/Menu'
+import { Metadata } from "next";
+export const metadata: Metadata = {
+    title: ' Menu | Corrine Bar (Nakkhu) | OpenTable',
+  }
 
 export default function ResturantMenu() {
   return (
