@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 }
 
 const prisma = new PrismaClient()
+interface searchParams{city?: string, cuisine?:string,price?:PRICE}
 const fetchLocation= ()=>{
   return prisma.location.findMany();
 }
@@ -20,7 +21,7 @@ const fetchCuisine= async()=>{
 }
 
 
-const fetchRestaurantByLocation = (city:string | undefined) =>
+const fetchRestaurantByLocation = (searchParams:searchParams) =>
 {
   const select={
       id:true,
@@ -32,22 +33,45 @@ const fetchRestaurantByLocation = (city:string | undefined) =>
       slug:true
 
   }
-  if(!city) return prisma.restaurant.findMany({select});
+  
+  const where:any ={
+
+  }
+  if(searchParams.city){
+    const location ={
+      name:{
+        equals:searchParams.city.toLowerCase(),
+      }
+    }
+    where.location = location // pass it into where object above
+  }
+  if(searchParams.cuisine){
+    const cuisine ={
+      name:{
+        equals:searchParams.cuisine.toLowerCase(),
+      }
+    }
+    where.cuisine = cuisine // pass it into where object above
+  }
+  if(searchParams.price){
+    const price ={
+      
+        equals:searchParams.price 
+    }
+    where.price = price // pass it into where object above
+  }
+
+
+  if(!searchParams) return prisma.restaurant.findMany({select});
   return prisma.restaurant.findMany({
-    where:{
-      location:{
-        name:{
-          equals:city.toLowerCase(),
-        }
-      },
-    },
+    where,
     select,
   })
 }
 
 export default async function Search({searchParams}:
-  {searchParams:{city?: string, cuisine?:string,price?:PRICE}}) {
- const restaurants = await fetchRestaurantByLocation(searchParams.city)
+  {searchParams:searchParams}) {
+ const restaurants = await fetchRestaurantByLocation(searchParams)
  const location = await fetchLocation();
  const cuisine = await fetchCuisine();
  
@@ -63,7 +87,7 @@ export default async function Search({searchParams}:
             <ResturantCard key={restaurant.id} restaurant={restaurant}/>
           ))
         )
-       : <p>No Restaurant Found in this area</p>} 
+       : <p>No Restaurant Found</p>} 
         </div>
       </div>
   
