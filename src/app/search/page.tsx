@@ -4,13 +4,22 @@ import { Metadata } from "next";
 import Header from './components/Header'
 import SearchSideBar from './components/SearchSideBar'
 import ResturantCard from './components/ResturantCard'
-import { PrismaClient } from '@prisma/client';
+import { PRICE, PrismaClient } from '@prisma/client';
+
 
 export const metadata: Metadata = {
   title: 'Search | OpenTable',
 }
 
 const prisma = new PrismaClient()
+const fetchLocation= ()=>{
+  return prisma.location.findMany();
+}
+const fetchCuisine= async()=>{
+  return prisma.cuisine.findMany();
+}
+
+
 const fetchRestaurantByLocation = (city:string | undefined) =>
 {
   const select={
@@ -36,19 +45,22 @@ const fetchRestaurantByLocation = (city:string | undefined) =>
   })
 }
 
-export default async function Search({searchParams}:{searchParams:{city: string}}) {
+export default async function Search({searchParams}:
+  {searchParams:{city?: string, cuisine?:string,price?:PRICE}}) {
  const restaurants = await fetchRestaurantByLocation(searchParams.city)
+ const location = await fetchLocation();
+ const cuisine = await fetchCuisine();
  
   return (
     <>
       <Header/>
       <div className="flex py-4 m-auto w-2/3 justify-between items-start">
-        <SearchSideBar/>
+        <SearchSideBar searchParams={searchParams}  location={location} cuisine={cuisine}/>
         <div className='w-5/6'>
        {restaurants.length ?
         (
           restaurants.map(restaurant=>(
-            <ResturantCard restaurant={restaurant}/>
+            <ResturantCard key={restaurant.id} restaurant={restaurant}/>
           ))
         )
        : <p>No Restaurant Found in this area</p>} 

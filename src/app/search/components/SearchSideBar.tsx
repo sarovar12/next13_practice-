@@ -1,34 +1,92 @@
-
 import React from 'react'
+import { Cuisine, Location, PRICE, } from '@prisma/client'
+import Link from 'next/link'
 
-export default function SideBar() {
+export default function SideBar(
+  {location,cuisine,searchParams}:
+  {location:Location[],
+    cuisine:Cuisine[],
+    searchParams:{city?: string, cuisine?:string,price?:PRICE}
+  }){
+
+  
+
+    const prices=[{
+
+        price:PRICE.CHEAP,
+        label:"$",
+        className:"border w-full text-reg font-light text-center rounded-l p-2" 
+      },
+       {
+        price:PRICE.REGULAR,
+        label:"$$",
+        className:"border w-full text-reg text-center font-light p-2" 
+      },
+      {
+        price:PRICE.EXPENSIVE,
+        label:"$$$",
+        className:"border w-full text-reg text-center font-light rounded-r p-2" 
+      },]
   return (
     <div className="w-1/5">
-    <div className="border-b pb-4">
+    <div className="border-b pb-4 flex flex-col">
+      <h1 className="font-semibold text-lg"> Region</h1>
+      {
+        location.map(location=>(
+          
+          <Link
+          key={location.id}
+          className='capitalize font-light text-reg cursor-pointer' 
+          href={{
+            pathname:'/search',
+            query:{
+              ...searchParams,
+              city:location.name},
+          }}>
+            {location.name} 
+          </Link>
+          
+        ))
+      }
+
       
-      <h1 className=""> Region</h1>
-      <p className="font-light text-reg"> Torronto</p>
-      <p className="font-light text-reg"> Ottawa</p>
-      <p className="font-light text-reg"> Monterreal</p>
-      <p className="font-light text-reg"> Hamilton</p>
-      <p className="font-light text-reg"> Kingston</p>
-      <p className="font-light text-reg"> Niagra</p>
     </div>
-    <div className="border-b pb-4 mt-3">
-      <h1 className=""> Cuisine</h1>
-      <p className="font-light text-reg"> Mexican</p>
-      <p className="font-light text-reg"> Italian</p>
-      <p className="font-light text-reg"> Chinese</p>
-      <p className="font-light text-reg"> Continental</p>
-      <p className="font-light text-reg"> Indian</p>
-      <p className="font-light text-reg"> Pakistani</p>
+    <div className="border-b pb-4 mt-3 flex flex-col ">
+      <h1 className="font-semibold text-lg"> Cuisine</h1>
+      {cuisine.map(cuisine=>(
+        
+          <Link 
+          key={cuisine.id}
+          className='capitalize font-light text-reg cursor-pointer'
+          href={{
+            pathname:'/search',
+            query:{
+              ...searchParams,
+              cuisine:cuisine.name},
+          }}>
+            {cuisine.name}
+          </Link>
+        
+      ))}
     </div>
     <div className="mt-3 pb-4">
       <h1 className="mb-2">
         <div className="flex">
-          <button className="border w-full text-reg font-light rounded-l p-2"> $</button>
-          <button className="border-r border-t border-b w-full text-reg font-light -left p-2"> $$</button>
-          <button className=" border-r border-t border-b w-full text-reg font-light rounded-r p-2"> $$$</button>
+          {
+            prices.map(({price,label,className})=>(
+              <Link
+              className={className}
+              href={{
+                pathname:'/search',
+                query:{
+                  ...searchParams,
+                  price},
+              }} 
+              >
+                {label}
+              </Link>
+            ))
+          }
         </div>
       </h1>
     </div>
