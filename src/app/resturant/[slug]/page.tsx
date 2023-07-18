@@ -9,7 +9,7 @@ import ReviewSection from './components/ReviewSection'
 import ReservationCard from './components/ReservationCard'
 
 import { Metadata } from "next";
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Review } from '@prisma/client'
 
 export const metadata: Metadata = {
     title: 'Corrine Bar (Nakkhu) | OpenTable',
@@ -20,6 +20,7 @@ export const metadata: Metadata = {
     images: string[];
     description: string;
     slug: string;
+    reviews: Review[];
 }
 
 const prisma = new PrismaClient();
@@ -34,6 +35,7 @@ const fetchRestaurantBySlug = async (slug:string) : Promise<Restaurant> =>{
       images:true,
       description:true,
       slug:true,
+      reviews:true,
     }
   })
 
@@ -41,6 +43,7 @@ const fetchRestaurantBySlug = async (slug:string) : Promise<Restaurant> =>{
     throw new Error()
   }
   return restaurant; 
+  
 }
 
 
@@ -54,10 +57,10 @@ export default async function ResturantDetails({params}:{params:{slug: string}})
           <div className="bg-white  w-[70%] rounded p-3 shadow">
             <ResturantNavbar slug={restaurant.slug}/>
             <Title name={restaurant.name}  />
-            <Ratings/>
+            <Ratings reviews={restaurant.reviews}/>
             <Description description= {restaurant.description}/>
             <Images images={restaurant.images}/>
-            <ReviewSection/>
+            <ReviewSection reviews={restaurant.reviews} />
           </div>
           <ReservationCard/>
         

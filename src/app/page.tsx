@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import ResturantCard from "./components/ResturantCard";
 export const metadata: Metadata = {
   title: 'OpenTable Clone'}
-import { PrismaClient, Cuisine, Location, PRICE } from "@prisma/client";
+import { PrismaClient, Cuisine, Location, PRICE, Review } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -15,6 +15,7 @@ export interface ResturantCardType{
   location: Location;
   price: PRICE;
   slug:string;
+  reviews:Review[];
 }
 
 const fetchRestaurants = async():Promise<ResturantCardType[]>=>{
@@ -27,6 +28,7 @@ const fetchRestaurants = async():Promise<ResturantCardType[]>=>{
       slug:true,
       location:true,
       price:true,
+      reviews:true,
     }
   });
   return restaurants;
