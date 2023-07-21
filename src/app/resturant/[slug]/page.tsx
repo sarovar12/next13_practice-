@@ -10,6 +10,7 @@ import ReservationCard from './components/ReservationCard'
 
 import { Metadata } from "next";
 import { PrismaClient, Review } from '@prisma/client'
+import { notFound } from 'next/navigation'
 
 export const metadata: Metadata = {
     title: 'Corrine Bar (Nakkhu) | OpenTable',
@@ -40,7 +41,7 @@ const fetchRestaurantBySlug = async (slug:string) : Promise<Restaurant> =>{
   })
 
   if(!restaurant){
-    throw new Error()
+    notFound();
   }
   return restaurant; 
   
