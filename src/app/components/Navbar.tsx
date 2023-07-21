@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import AuthModal from './AuthModal'
 
 export default function Navbar() {
   return (
@@ -7,12 +8,12 @@ export default function Navbar() {
     <Link href='/' className='font-bold text-gray-700 text-2xl'> {" "} Open Table{" "}</Link>
       <div>
         <div className='flex '>
-            <button className="bg-blue-400 text-white border rounded mr-3 p-1 px-4"> Sign In</button>
-            <button className="border p-1 px-4 rounded">Sign Up</button>
+           
+            <AuthModal isSignIn={true}/>
+            <AuthModal isSignIn={false}/>
         </div>
       </div>
     
-    </nav>
-    
+    </nav>    
   )
 }
