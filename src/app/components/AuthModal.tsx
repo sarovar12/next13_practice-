@@ -3,8 +3,11 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 
 import Modal from '@mui/material/Modal';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import AuthModalInput from './AuthModalInput';
+import useAuth from '../../../hooks/useAuth';
+import { AuthenticationContext } from '../context/authContext';
+
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -19,9 +22,11 @@ const style = {
 };
 
 export default function AuthModal({isSignIn}:{isSignIn:boolean}) {
+  const {error,loading,data,setAuthState } = useContext(AuthenticationContext)
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const {signIn} = useAuth()
 
   const renderContent=(signInContent:string, signUpContent:string)=>{
     return isSignIn ? signInContent: signUpContent
@@ -56,6 +61,11 @@ export default function AuthModal({isSignIn}:{isSignIn:boolean}) {
       [e.target.name]:e.target.value
     })
   }
+  const handleClick = () =>{
+    if(isSignIn){
+      signIn({email:inputs.email,password:inputs.password})
+    }
+  }
   return (
     <div>
        <button 
@@ -72,9 +82,17 @@ export default function AuthModal({isSignIn}:{isSignIn:boolean}) {
       >
         <Box sx={style}>
             <div className="p-2 h-[490px]">
+              
                 <div className="uppercase font-bold text-center pb-2 border-b mb-2">
                     <div className="text-sm">
                         {renderContent("Sign In","Create Account")}
+                        {/* <h1 onClick={()=>{
+                          setAuthState({
+                          data,loading,
+                          error:"Bye Bye"
+                        })}}>
+                          {error}
+                          </h1> */}
                     </div>
                 </div>
                 <div className=' m-auto '>
@@ -86,6 +104,7 @@ export default function AuthModal({isSignIn}:{isSignIn:boolean}) {
                     isSignIn={isSignIn}/>
                     <button
                     disabled={disabled} 
+                    onClick={handleClick}
                     className=' uppercase bg-red-600 w-full text-white p-3 rounded
                     text-sm mb-5 disabled:bg-gray-400'>
                       {
