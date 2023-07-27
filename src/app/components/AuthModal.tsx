@@ -64,8 +64,9 @@ export default function AuthModal({isSignIn}:{isSignIn:boolean}) {
   }
   const handleClick = () =>{
     if(isSignIn){
-      signIn({email:inputs.email,password:inputs.password})
-    }
+      signIn({email:inputs.email,password:inputs.password}, //evokes function signIn from useAuth with
+        handleClose)                                        // email and pw from input as well
+    }                                                       // as handleClose function
   }
   return (
     <div>
