@@ -27,7 +27,7 @@ export default function AuthModal({isSignIn}:{isSignIn:boolean}) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const {signIn} = useAuth()
+  const {signIn,signUp} = useAuth()
 
   const renderContent=(signInContent:string, signUpContent:string)=>{
     return isSignIn ? signInContent: signUpContent
@@ -66,7 +66,12 @@ export default function AuthModal({isSignIn}:{isSignIn:boolean}) {
     if(isSignIn){
       signIn({email:inputs.email,password:inputs.password}, //evokes function signIn from useAuth with
         handleClose)                                        // email and pw from input as well
-    }                                                       // as handleClose function
+    } else {                                                // as handleClose function
+      signUp(inputs,handleClose)
+    }                                                      
+    
+
+
   }
   return (
     <div>
