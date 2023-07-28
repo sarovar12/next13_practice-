@@ -1,31 +1,51 @@
-Next JS 13 App
+# Next JS 13 App
+
+
 Figuring out next 13 and trying to implement all its relevant features 
 
-Things learned/implemented:
-File Based Routing
-Client/Server Components
-Next API for User Sign In/Sign Up
-Implemented Authentication using JWT from scratch
-Global State using Context API
-
-OnlineStore uses following tech/libaries:
-
-[NextJs 13]
-[Next API]
-[Tailwind CSS]
-[Axios]
-[Cookies-next]
-[bcyrpt]
-[prisma]
-[validator]
-[TypeSscript]
-[Material UI]
+### Things learned/implemented:
 
 
-Installation
+1. File Based Routing
+
+2. Client/Server Components
+
+3. Next API for User Sign In/Sign Up
+
+
+4. Implemented Authentication using JWT from scratch
+
+5. Global State using Context API
+
+### This app uses following tech/libaries:
+
+1. NextJs 13
+
+2. Next API
+
+3. Tailwind CSS
+
+4. Axios
+
+5. Cookies-next
+
+6. bcyrpt
+
+7. prisma
+
+8. validator
+
+9. TypeSscript
+
+10. Material UI
+
+
+### Installation
+
 Install the dependencies and start the server.
 
-
+```
 npm install
-npm run dev
 
+npm run dev
+```
