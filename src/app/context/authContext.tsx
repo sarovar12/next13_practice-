@@ -1,6 +1,6 @@
 "use client"
 import { ReactNode, useState, createContext, useContext, useEffect } from "react";
-import useAuth from "../../../hooks/useAuth";
+
 import axios from "axios";
 import { getCookie } from "cookies-next";
 
@@ -32,7 +32,7 @@ export default function AuthContext({
 }:{children:ReactNode;
 }){
     const[authState,setAuthState]=useState<State>({
-        loading:false,
+        loading:true,
         data:null,
         error:null, 
     })
@@ -56,7 +56,6 @@ export default function AuthContext({
                     Authorization:`Bearer ${jwt}`
                 }
             })
-            console.log({response})
             axios.defaults.headers.common["Authorization"] =`Bearer ${jwt}`
             setAuthState({
                 data:response.data,

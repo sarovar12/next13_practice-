@@ -1,6 +1,7 @@
 import { AuthenticationContext } from "@/app/context/authContext";
 import axios from "axios";
-import { getCookie } from "cookies-next";
+import { deleteCookie, removeCookies } from "cookies-next";
+import { cookies } from "next/dist/client/components/headers";
 import { useContext } from "react";
 
 
@@ -76,11 +77,21 @@ const useAuth =()=>{
               })
           }        
 
+    };
+
+    const signOut =()=>{
+        deleteCookie("jwt")  //removeCookie is deprecated
+        setAuthState({
+            data:null,
+            error:null,
+            loading:false,
+        })
     }
 
     return{
         signIn, 
         signUp,
+        signOut
 
     }
 
